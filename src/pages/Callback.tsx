@@ -1,16 +1,24 @@
 import React, { useEffect } from "react";
 
 const XeroCallback: React.FC = () => {
+     
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     // const code: string | null = urlParams.get("code");
     // const state: string | null = urlParams.get("state");
+   const userString = localStorage.getItem("user");
+   let userId = null;
+
+   if (userString) {
+    const user = JSON.parse(userString);
+    userId = user.id; // adjust if your user object has a different field
+   }
 
     // if (code && state) {
-      fetch("http://localhost:5000/callback", {
+      fetch("https://95124fc829ac.ngrok-free.app/callback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ "urlparams":urlParams.toString() }),
+        body: JSON.stringify({ "urlparams":urlParams.toString() , userId: userId }),
       })
         .then((res) => res.json())
         .then((data: unknown) => {
