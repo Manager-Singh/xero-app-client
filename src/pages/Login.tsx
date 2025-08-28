@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { login as loginUser } from "../api/userApi";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -15,24 +16,12 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://95124fc829ac.ngrok-free.app/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
 
-      const data = await response.json();
- 
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
+      const data = await loginUser({ email, password });
 
-     
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-     
+
       navigate("/");
     } catch (err: any) {
       setError(err.message);
@@ -73,11 +62,11 @@ const Login: React.FC = () => {
             />
           </div>
           <div className="d-flex gap-2 justify-content-end align-items-center  mb-3">
-  <p className="mb-0">Don’t have an account?</p>
-  <Link to="/register" className="text-primary fw-semibold text-decoration-none">
-    Register
-  </Link>
-</div>
+            <p className="mb-0">Don’t have an account?</p>
+            <Link to="/register" className="text-primary fw-semibold text-decoration-none">
+              Register
+            </Link>
+          </div>
 
           <button
             type="submit"

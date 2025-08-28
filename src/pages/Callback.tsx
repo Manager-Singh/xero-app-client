@@ -15,7 +15,7 @@ const XeroCallback: React.FC = () => {
    }
 
     // if (code && state) {
-      fetch("https://95124fc829ac.ngrok-free.app/callback", {
+      fetch(`${import.meta.env.VITE_API_URL}/callback`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ "urlparams":urlParams.toString() , userId: userId }),

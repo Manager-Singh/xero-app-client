@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { register as registerUser } from "../api/userApi";
 
 const Register: React.FC = () => {
   const [name, setName] = useState<string>("");
@@ -19,20 +20,8 @@ const Register: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://95124fc829ac.ngrok-free.app/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
 
-      const data = await response.json();
-    console.log(data,"data")
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
-
+      await registerUser({ name, email, password });
       setSuccess("Registration successful! Redirecting to login...");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err: any) {
@@ -86,14 +75,14 @@ const Register: React.FC = () => {
               required
               minLength={6}
             />
-          
+
           </div>
-        <div className="d-flex gap-2 justify-content-end align-items-center mb-3">
-         <p className="mb-0">Already have an account?</p>
-           <Link to="/login" className="text-primary fw-semibold text-decoration-none">
-             Login
-           </Link>
-        </div>
+          <div className="d-flex gap-2 justify-content-end align-items-center mb-3">
+            <p className="mb-0">Already have an account?</p>
+            <Link to="/login" className="text-primary fw-semibold text-decoration-none">
+              Login
+            </Link>
+          </div>
 
           <button
             type="submit"
