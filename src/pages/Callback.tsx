@@ -23,6 +23,11 @@ const XeroCallback: React.FC = () => {
         .then((res) => res.json())
         .then((data: unknown) => {
           console.log("Backend token exchange result:", data);
+          if(data && data.token){
+          
+            window.location.href = "/"; 
+
+          }
         })
         .catch((err) => {
           console.error("Error exchanging Xero token:", err);
